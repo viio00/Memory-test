@@ -210,3 +210,15 @@ input[type="radio"] {
     text-align: center;
     font-size: 1.5rem;
 }
+
+.stroop-1{
+    color: red;
+}
+
+.stroop-2{
+    color: yellow;
+}
+
+.stroop-3{
+    color: white;
+}

@@ -27,7 +27,7 @@
 
 <div id="part_one">
 
-    <div id="firstPage" class="page" style="display: none;">
+    <div id="firstPage" class="page" style="display: block;">
         <h2>Cognitive Ability Survey</h2>
 
         <div class="question-group">
@@ -76,7 +76,7 @@
         <button class="next-btn">Next Section</button>
     </div>
 
-    <div id="secondPage" class="page" style="display: none;">
+    <div id="secondPage" class="page" style="display: block;">
         <h2>Memory Confidence Survey</h2>
 
         <div class="question-group">
@@ -132,7 +132,7 @@
         <h1>COMMON KNOWLEDGE/FACTUAL RECALL</h1>
     </div>
 
-    <div id="thirdPage" class="page" style="display: none;">
+    <div id="thirdPage" class="page" style="display: block;">
         <div class="question-group">
             <label>Who proposed the theory of general relativity?</label>
             <input type="text" name="11th" required>
@@ -168,7 +168,7 @@
         <h1>SHORT TERM MEMORY</h1>
     </div>
 
-    <div id="fourthPage" class="page memory-task" style="display: none;">
+    <div id="fourthPage" class="page memory-task" style="display: block;">
         <div id="card-cont" class="memorize-view">
             <h2>Remember these words</h2>
             <div class="grid-contaier">
@@ -191,7 +191,7 @@
             </div>
         </div>
 
-        <div id="card-cont-recall" class="recall-view" style="display: none;">
+        <div id="card-cont-recall" class="recall-view" style="display: block;">
             <h2>Type the words you remember:</h2>
             <div class="grid-contaier">
                 <div class="grid-row">
@@ -215,7 +215,7 @@
         </div>
     </div>
 
-    <div id="fifthPage" class="page memory-task" style="display: none;">
+    <div id="fifthPage" class="page memory-task" style="display: block;">
         <div class="memorize">
             <h2>8-2-5-1-9</h2>
         </div>
@@ -227,7 +227,7 @@
         </div>
     </div>
 
-    <div id="sixthPage" class="page memory-task" style="display: none;">
+    <div id="sixthPage" class="page memory-task" style="display: block;">
         <div id="card-cont" class="memorize-view">
             <h2>Remember these words (Round 2)</h2>
             <div class="grid-contaier">
@@ -250,7 +250,7 @@
             </div>
         </div>
 
-        <div id="card-cont-recall-2" class="recall-view" style="display: none;">
+        <div id="card-cont-recall-2" class="recall-view" style="display: block;">
             <h2>Type the words you remember:</h2>
             <div class="grid-contaier">
                 <div class="grid-row">
@@ -269,12 +269,15 @@
             <button class="next-btn">Next Sequence</button>
         </div>
     </div>
+</div>
 
-    <div id="title-Visual" class="section-title">
+<div id="part_four">
+
+<div id="title-Visual" class="section-title">
         <h1>VISUAL MEMORY</h1>
     </div>
 
-    <div id="seventhPage" class="page memory-task" style="display: none;">
+    <div id="seventhPage" class="page memory-task" style="display: block;">
         <div class="memorize">
             <h2>○ ■ ○ ○ ▲ ■ ○</h2>
         </div>
@@ -289,7 +292,7 @@
         </div>
     </div>
 
-    <div id="eighthPage" class="page memory-task" style="display: none;">
+    <div id="eighthPage" class="page memory-task" style="display: block;">
         <div id="card-cont" class="memorize-view">
             <h2>Remember these words</h2>
             <div class="grid-contaier">
@@ -312,13 +315,55 @@
             </div>
         </div>
 
-        <div id="card-cont-recall-3" class="recall-view" style="display: none;">
+        <div id="card-cont-recall-3" class="recall-view" style="display: block;">
             <h2>How many colors were there: </h2>
             <input type="text" name="number-recall-2" required>
             <button class="next-btn">Submit Results</button>
         </div>
     </div>
+</div>
 
+<div id="part_five">
+
+<div id="title-working" class="section-title">
+        <h1>working MEMORY</h1>
+    </div>
+
+    <div id="ninthPage" class="page working-task" style="display: block;">
+        <div class="memorize">
+            <h2>4-2-7-1-3</h2>
+        </div>
+
+        <div class="reverse">
+            <h2>Reverse the sequence: </h2>
+            <input type="text" name="number-reverse" placeholder="e.g. 12345 to 54321" required>
+            <button class="next-btn">Next Section</button>
+        </div>
+    </div>
+    <div id="tenthPage" class="page working-task" style="display: block;">
+            <h3>Identify the COLOR of each WORD? </h3>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <div class="grid-cell"><h2 class="stroop-1">Green</h2></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"><h2 class="stroop-2">Blue</h2></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"><h2 class="stroop-3">Black</h2></div>
+                </div>
+            </div>
+                <div id="card-cont-recall-3" class="recall-view" style="display: block;">
+                    <br>
+                    <input type="text" name="color-stroop-1" placeholder="e.g. ORANGE" required>
+                    <br><br>
+                    <input type="text" name="color-stroop-2" placeholder="e.g. RED" required>
+                    <br><br>
+                    <input type="text" name="color-stroop-3" placeholder="e.g. YELLOW" required>
+                    <button class="next-btn">Submit Results</button>
+                </div>
+    </div>
+</div>
 </div>
 </body>
 </html>
