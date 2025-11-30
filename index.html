@@ -1,286 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Memory Test</title>
-        <link rel = "stylesheet" href="styles.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Test</title>
+    <link rel = "stylesheet" href="styliestyle.css">
+</head>
 
-    <body>
-        <div id="info"> 
-            <label>Name: </label>
-            <input type="text" name="name" required><br><br>
+<body>
 
-            <label>Email: </label>
-            <input type="text" name="email" required><br><br>
+<div id="info" class="page">
+    <label>Name:</label>
+    <input type="text" name="name" required>
 
-            <label>Age: </label><br>
-            <input type="text" name="age" required><br><br>
+    <label>Email:</label>
+    <input type="text" name="email" required>
 
-            <label>Program: </label>
-            <input type="text" name="program" required><br><br>
+    <label>Age:</label>
+    <input type="text" name="age" required>
+
+    <label>Program:</label>
+    <input type="text" name="program" required>
+
+    <button class="next-btn">Start Test</button>
+</div>
+
+<div id="part_one">
+
+    <div id="firstPage" class="page" style="display: none;">
+        <h2>Cognitive Ability Survey</h2>
+
+        <div class="question-group">
+            <label>How easily do you lose focus during tasks?</label>
+            <input type="radio" name="1st" value="a" required> Never
+            <input type="radio" name="1st" value="b"> Rarely
+            <input type="radio" name="1st" value="c"> Sometimes
+            <input type="radio" name="1st" value="d"> Often
+            <input type="radio" name="1st" value="e"> Always
         </div>
 
-        <div id="part_one">
-        <div id="firstPage" style="display: none;">
-            <label>How easily do you lose focus during tasks?</label><br>
-                <input type="radio" name="1st" value="a" required> Never
-                <input type="radio" name="1st" value="b"> Rarely
-                <input type="radio" name="1st" value="c"> Sometimes
-                <input type="radio" name="1st" value="d"> Often 
-                <input type="radio" name="1st" value="e"> Always
-            <br><br>
-
-            <label>How confident are you in making quick, on-the-spot decisions?</label><br>
-                <input type="radio" name="2nd" value="a" required> Not Confident
-                <input type="radio" name="2nd" value="b"> Slightly Confident
-                <input type="radio" name="2nd" value="c"> Moderately Confident
-                <input type="radio" name="2nd" value="d"> Confident 
-                <input type="radio" name="2nd" value="e"> Very Confident
-            <br><br>
-
-            <label>How often do you feel stuck when trying to solve a problem?</label><br>
-                <input type="radio" name="3rd" value="a" required> 0-1 days
-                <input type="radio" name="3rd" value="b">  2-3 days
-                <input type="radio" name="3rd" value="c">4-5 days
-                <input type="radio" name="3rd" value="d"> 1 week  
-                <input type="radio" name="3rd" value="e"> more than a week
-            <br><br>
-
-            <label>Is it easy to connect new information to what you already know?</label><br>
-                <input type="radio" name="4th" value="a" required> Very Difficult 
-                <input type="radio" name="4th" value="b">  Difficult
-                <input type="radio" name="4th" value="c"> Neutral
-                <input type="radio" name="4th" value="d"> Easy
-                <input type="radio" name="4th" value="e">  Very Easy
-            <br><br>
-
-            <label>Do you prefer focusing on details or the big picture first?</label><br>
-                <input type="radio" name="5th" value="a" required> Details First 
-                <input type="radio" name="5th" value="b">  Balanced Focus 
-                <input type="radio" name="5th" value="c"> Big Picture First
-            <br><br>
-        </div> 
-
-        <div id="secondPage" style="display: none;">
-            <label>When introduced to a list of 10 items, how many do you typically remember without writing them down?</label><br>
-                <input type="radio" name="6th" value="a" required> 0-2 
-                <input type="radio" name="6th" value="b">  3-5
-                <input type="radio" name="6th" value="c"> 6-8
-                <input type="radio" name="6th" value="d"> 9-10
-            <br><br>
-
-            <label>How easy is it for you to remember a short sequence of numbers (e.g., 7-2-9-4-8)?</label><br>
-                <input type="radio" name="7th" val ue="a" required> Very Difficult 
-                <input type="radio" name="7th" value="b">  Difficult
-                <input type="radio" name="7th" value="c"> Neutral
-                <input type="radio" name="7th" value="d"> Easy
-                <input type="radio" name="7th" value="e">  Very Easy
-            <br><br>
-
-            <label>After reading a short paragraph or story, how well do you recall the main details?</label><br>
-                <input type="radio" name="8th" value="a" required> Not at All 
-                <input type="radio" name="8th" value="b">  Slightly
-                <input type="radio" name="8th" value="c"> Moderately Well
-                <input type="radio" name="8th" value="d"> Well
-                <input type="radio" name="8th" value="e">  Very Well 
-            <br><br>
-
-            <label>How often do you forget where you placed everyday items (keys, glasses, phone, etc.)?</label><br>
-                <input type="radio" name="9th" value="a" required> Rarely
-                <input type="radio" name="9th" value="b">  Occasionally
-                <input type="radio" name="9th" value="c"> Frequently
-                <input type="radio" name="9th" value="d"> Almost Always
-                <input type="radio" name="9th" value="e">  Always
-            <br><br>
-
-            <label>If someone tells you a word and asks you to remember it later, how likely are you to recall it after 5 minutes?</label><br>
-                <input type="radio" name="10th" value="a" required> Very Unlikely
-                <input type="radio" name="10th" value="b">  Somewhat Unlikely
-                <input type="radio" name="10th" value="c"> Somewhat Likely
-                <input type="radio" name="10th" value="d"> Likely
-                <input type="radio" name="10th" value="e">  Very Likely 
-            <br><br>
-        </div>
+        <div class="question-group">
+            <label>How confident are you in making quick, on-the-spot decisions?</label>
+            <input type="radio" name="2nd" value="a" required> Not Confident
+            <input type="radio" name="2nd" value="b"> Slightly Confident
+            <input type="radio" name="2nd" value="c"> Moderately Confident
+            <input type="radio" name="2nd" value="d"> Confident
+            <input type="radio" name="2nd" value="e"> Very Confident
         </div>
 
-        <div id="part_two">
-        <div id="title-Recall">
-            <h1>COMMON KNOWLEDGE/FACTUAL RECALL</h1>
+        <div class="question-group">
+            <label>How often do you feel stuck when trying to solve a problem?</label>
+            <input type="radio" name="3rd" value="a" required> 0-1 days
+            <input type="radio" name="3rd" value="b"> 2-3 days
+            <input type="radio" name="3rd" value="c"> 4-5 days
+            <input type="radio" name="3rd" value="d"> 1 week
+            <input type="radio" name="3rd" value="e"> more than a week
         </div>
 
-        <div id="thirdPage" style="display: none;">
-            <label>Who proposed the theory of general relativity?</label><br>
-                <input type="text" name="11th" value="einstein" required> 
-            <br><br>
-
-            <label>In what year did World War I start?</label><br>
-                <input type="text" name="12th" value="1914" required> 
-            <br><br>
-
-            <label>Who discovered gravity after seeing an apple fall (according to popular story)?</label><br>
-                <input type="text" name="13th" value="newton" required> 
-            <br><br>
-
-            <label>What is the largest ocean on Earth?</label><br>
-                <input type="text" name="14th" value="pacific" required> 
-            <br><br>
-
-            <label>Which country has the largest population?</label><br>
-                <input type="text" name="15th" value="india" required>
-            <br><br>
-        </div>
+        <div class="question-group">
+            <label>Is it easy to connect new information to what you already know?</label>
+            <input type="radio" name="4th" value="a" required> Very Difficult
+            <input type="radio" name="4th" value="b"> Difficult
+            <input type="radio" name="4th" value="c"> Neutral
+            <input type="radio" name="4th" value="d"> Easy
+            <input type="radio" name="4th" value="e"> Very Easy
         </div>
 
-        <div id="part_three">
-        <div id="title-STM">
-            <h1>SHORT TERM MEMORY</h1>
+        <div class="question-group">
+            <label>Do you prefer focusing on details or the big picture first?</label>
+            <input type="radio" name="5th" value="a" required> Details First
+            <input type="radio" name="5th" value="b"> Balanced Focus
+            <input type="radio" name="5th" value="c"> Big Picture First
         </div>
 
-        <div id="fourthPage" style="display: none;">
-            <div id="card-cont">
-                <h2>Remember these words</h2>
-                <div class="grid-contaier"> 
-                    <div class="grid-row">
-                        <div class="grid-cell">Vase</div>
-                        <div class="grid-cell">Tiger</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Hat</div>
-                        <div class="grid-cell">Spade</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Orange</div>
-                        <div class="grid-cell">Ice Cream</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Blue</div>
-                        <div class="grid-cell">Guitar</div>
-                    </div>
+        <button class="next-btn">Next Section</button>
+    </div>
+
+    <div id="secondPage" class="page" style="display: none;">
+        <h2>Memory Confidence Survey</h2>
+
+        <div class="question-group">
+            <label>When introduced to a list of 10 items, how many do you typically remember without writing them down?</label>
+            <input type="radio" name="6th" value="a" required> 0-2
+            <input type="radio" name="6th" value="b"> 3-5
+            <input type="radio" name="6th" value="c"> 6-8
+            <input type="radio" name="6th" value="d"> 9-10
+        </div>
+
+        <div class="question-group">
+            <label>How easy is it for you to remember a short sequence of numbers (e.g., 7-2-9-4-8)?</label>
+            <input type="radio" name="7th" value="a" required> Very Difficult
+            <input type="radio" name="7th" value="b"> Difficult
+            <input type="radio" name="7th" value="c"> Neutral
+            <input type="radio" name="7th" value="d"> Easy
+            <input type="radio" name="7th" value="e"> Very Easy
+        </div>
+
+        <div class="question-group">
+            <label>After reading a short paragraph or story, how well do you recall the main details?</label>
+            <input type="radio" name="8th" value="a" required> Not at All
+            <input type="radio" name="8th" value="b"> Slightly
+            <input type="radio" name="8th" value="c"> Moderately Well
+            <input type="radio" name="8th" value="d"> Well
+            <input type="radio" name="8th" value="e"> Very Well
+        </div>
+
+        <div class="question-group">
+            <label>How often do you forget where you placed everyday items (keys, glasses, phone, etc.)?</label>
+            <input type="radio" name="9th" value="a" required> Rarely
+            <input type="radio" name="9th" value="b"> Occasionally
+            <input type="radio" name="9th" value="c"> Frequently
+            <input type="radio" name="9th" value="d"> Almost Always
+            <input type="radio" name="9th" value="e"> Always
+        </div>
+
+        <div class="question-group">
+            <label>If someone tells you a word and asks you to remember it later, how likely are you to recall it after 5 minutes?</label>
+            <input type="radio" name="10th" value="a" required> Very Unlikely
+            <input type="radio" name="10th" value="b"> Somewhat Unlikely
+            <input type="radio" name="10th" value="c"> Somewhat Likely
+            <input type="radio" name="10th" value="d"> Likely
+            <input type="radio" name="10th" value="e"> Very Likely
+        </div>
+
+        <button class="next-btn">Next Section</button>
+    </div>
+</div>
+
+<div id="part_two">
+    <div id="title-Recall" class="section-title">
+        <h1>COMMON KNOWLEDGE/FACTUAL RECALL</h1>
+    </div>
+
+    <div id="thirdPage" class="page" style="display: none;">
+        <div class="question-group">
+            <label>Who proposed the theory of general relativity?</label>
+            <input type="text" name="11th" required>
+        </div>
+
+        <div class="question-group">
+            <label>In what year did World War I start?</label>
+            <input type="text" name="12th" required>
+        </div>
+
+        <div class="question-group">
+            <label>Who discovered gravity after seeing an apple fall (according to popular story)?</label>
+            <input type="text" name="13th" required>
+        </div>
+
+        <div class="question-group">
+            <label>What is the largest ocean on Earth?</label>
+            <input type="text" name="14th" required>
+        </div>
+
+        <div class="question-group">
+            <label>Which country has the largest population?</label>
+            <input type="text" name="15th" required>
+        </div>
+
+        <button class="next-btn">Next Section</button>
+    </div>
+</div>
+
+<div id="part_three">
+
+    <div id="title-STM" class="section-title">
+        <h1>SHORT TERM MEMORY</h1>
+    </div>
+
+    <div id="fourthPage" class="page memory-task" style="display: none;">
+        <div id="card-cont" class="memorize-view">
+            <h2>Remember these words</h2>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <div class="grid-cell">Vase</div>
+                    <div class="grid-cell">Tiger</div>
                 </div>
-            </div>
-
-            <div id="card-cont" style="display: none;">
-                <div class="grid-contaier">
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Hat</div>
+                    <div class="grid-cell">Spade</div>
                 </div>
-            </div>
-        </div>
-
-        <div id="fifthPage" style="display: none;">
-            <!-- memorize class will disappear in 5 seconds -->
-            <div class="memorize"> 
-                <h2>8-2-5-1-9</h2>
-            </div>
-
-            <div class="recall">
-                <h2>Reacall the sequence: </h2>
-                <input type="text" name="number-recall" required>
-            </div>
-        </div>
-
-        <div id="sixthPage" style="display: none;">
-            <div id="card-cont">
-                <h2>Remember these words</h2>
-                <div class="grid-contaier"> 
-                    <div class="grid-row">
-                        <div class="grid-cell">Rectangle</div>
-                        <div class="grid-cell">Alphabet</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Bathroom</div>
-                        <div class="grid-cell">Hydrogen</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Obseriving </div>
-                        <div class="grid-cell">Compariso</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Product</div>
-                        <div class="grid-cell">Solution</div>
-                    </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Orange</div>
+                    <div class="grid-cell">Ice Cream</div>
                 </div>
-            </div>
-
-            <div id="card-cont" style="display: none;">
-                <div class="grid-contaier">
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
-                    <div class="grid-row">
-                        <input type="text" placeholder="Type word" required>
-                        <input type="text" placeholder="Type word" required>
-                    </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Blue</div>
+                    <div class="grid-cell">Guitar</div>
                 </div>
             </div>
         </div>
 
-        <div id="seventhPage" style="display: none;">
-            <!-- memorize class will disappear in 5 seconds -->
-            <div class="memorize"> 
-                <h2>○ ■ ○ ○ ▲ ■ ○ </h2>
-            </div>
-
-            <div class="recall">
-                <h3>How many circles were there? </h3>
-                <input type="radio" name="16th" value="a" required> 3
-                <input type="radio" name="16th" value="b" required> 1
-                <input type="radio" name="16th" value="c" required> 4
-                <input type="radio" name="16th" value="d" required> 5
-            </div>
-        </div>
-
-        <div id="eighthPage" style="display: none;">
-            <div id="card-cont">
-                <h2>Remember these words</h2>
-                <div class="grid-contaier"> 
-                    <div class="grid-row">
-                        <div class="grid-cell">Blue</div>
-                        <div class="grid-cell">Water</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Back</div>
-                        <div class="grid-cell">Drums</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Red </div>
-                        <div class="grid-cell">Orange</div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell">Hand</div>
-                        <div class="grid-cell">Bag</div>
-                    </div>
+        <div id="card-cont-recall" class="recall-view" style="display: none;">
+            <h2>Type the words you remember:</h2>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
                 </div>
             </div>
+            <button class="next-btn">Next Sequence</button>
+        </div>
+    </div>
 
-            <div id="card-cont" style="display: none;">
-                <h2>How many colors were there: </h2>
-                <input type="text" name="number-recall" required>
+    <div id="fifthPage" class="page memory-task" style="display: none;">
+        <div class="memorize">
+            <h2>8-2-5-1-9</h2>
+        </div>
+
+        <div class="recall">
+            <h2>Recall the sequence: </h2>
+            <input type="text" name="number-recall" placeholder="e.g. 82519" required>
+            <button class="next-btn">Next Section</button>
+        </div>
+    </div>
+
+    <div id="sixthPage" class="page memory-task" style="display: none;">
+        <div id="card-cont" class="memorize-view">
+            <h2>Remember these words (Round 2)</h2>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <div class="grid-cell">Rectangle</div>
+                    <div class="grid-cell">Alphabet</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Bathroom</div>
+                    <div class="grid-cell">Hydrogen</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Observing</div>
+                    <div class="grid-cell">Comparison</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Product</div>
+                    <div class="grid-cell">Solution</div>
+                </div>
             </div>
         </div>
+
+        <div id="card-cont-recall-2" class="recall-view" style="display: none;">
+            <h2>Type the words you remember:</h2>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+                <div class="grid-row">
+                    <input type="text" placeholder="Type word" required>
+                    <input type="text" placeholder="Type word" required>
+                </div>
+            </div>
+            <button class="next-btn">Next Sequence</button>
+        </div>
+    </div>
+
+    <div id="title-Visual" class="section-title">
+        <h1>VISUAL MEMORY</h1>
+    </div>
+
+    <div id="seventhPage" class="page memory-task" style="display: none;">
+        <div class="memorize">
+            <h2>○ ■ ○ ○ ▲ ■ ○</h2>
         </div>
 
-        <div id="part_four">
-         <div id="title-VisualMemo">
-            <h1>VISUAL MEMORY</h1>
+        <div class="recall">
+            <h3>How many circles were there? </h3>
+            <input type="radio" name="16th" value="a" required> 3
+            <input type="radio" name="16th" value="b" required> 1
+            <input type="radio" name="16th" value="c" required> 4
+            <input type="radio" name="16th" value="d" required> 5
+            <button class="next-btn">Next Section</button>
         </div>
+    </div>
+
+    <div id="eighthPage" class="page memory-task" style="display: none;">
+        <div id="card-cont" class="memorize-view">
+            <h2>Remember these words</h2>
+            <div class="grid-contaier">
+                <div class="grid-row">
+                    <div class="grid-cell color-blue">Blue</div>
+                    <div class="grid-cell">Water</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Back</div>
+                    <div class="grid-cell">Drums</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell color-red">Red</div>
+                    <div class="grid-cell color-orange">Orange</div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell">Hand</div>
+                    <div class="grid-cell">Bag</div>
+                </div>
+            </div>
         </div>
 
-    </body>
+        <div id="card-cont-recall-3" class="recall-view" style="display: none;">
+            <h2>How many colors were there: </h2>
+            <input type="text" name="number-recall-2" required>
+            <button class="next-btn">Submit Results</button>
+        </div>
+    </div>
+
+</div>
+</body>
 </html>
