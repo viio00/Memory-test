@@ -126,6 +126,25 @@ input[type="radio"] {
     background-color: #4a8cd1;
 }
 
+.start-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.start-btn:hover {
+    background-color: #4a8cd1;
+}
+
 /* --- the stm grid style?!?!?!? --- */
 
 #card-cont, #card-cont-recall, #card-cont-recall-2 {
