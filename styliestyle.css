@@ -241,3 +241,44 @@ input[type="radio"] {
 .stroop-3{
     color: white;
 }
+
+#visual-add {
+    position: absolute;
+}
+
+#visual-add {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#content {
+    width: 400px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* horizontal */
+    align-items: center;     /* vertical */
+}
+#grid { 
+    display: grid; 
+    grid-template-columns: repeat(5, 60px); 
+    grid-gap: 10px; 
+    margin-top: 20px; 
+    margin-bottom: 20px;
+}
+    
+.tile {
+      width: 60px; height: 60px;
+      background: rgba(68, 68, 68, 1);
+      border: 2px solid #000000ff;
+      cursor: pointer;
+    }
+    .tile.flash {
+      background: yellow;
+    }
+    .tile.selected {
+      background: lightgreen;
+    }
+    #message { margin-top: 20px; }
+    #startBtn { margin-top: 20px; padding: 10px 20px; }
