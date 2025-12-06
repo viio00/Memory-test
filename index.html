@@ -8,7 +8,7 @@
 </head>
 
 <body>
-
+<div id="timer" class="timerDisplay" style="display: none;"></div>
 <div id="info" class="page">
     <label>Name:</label>
     <input type="text" name="name" required>
@@ -176,10 +176,10 @@
         <h1>SHORT TERM MEMORY</h1>
     </div>
     <div id="fourthPage" class="page memory-task" style="display: none;">
-        <div id="card-cont" class="memorize-view">
+        <div id="card-cont" class="memorize">
             <h2>Remember these words</h2>
 <!-- 1 point each correct, 6 highest-->
-            <div class="grid-contaier">
+            <div class="grid-contaimer">
                 <div class="grid-row">
                     <div class="grid-cell">Vase</div>
                     <div class="grid-cell">Tiger</div>
@@ -199,9 +199,10 @@
             </div>
         </div>
 
-        <div id="card-cont-recall" class="recall-view" style="display: none;">
+        <div id="card-cont-recall" class="recall" style="display: none;">
+            <br>
             <h2>Type the words you remember:</h2>
-            <div class="grid-contaier">
+            <div class="grid-container">
                 <div class="grid-row">
                     <input type="text" placeholder="Type word" required>
                     <input type="text" placeholder="Type word" required>
@@ -224,23 +225,23 @@
     </div>
 
     <div id="fifthPage" class="page memory-task" style="display: none;">
+        <h2>Recall the sequence</h2>
         <div class="memorize">
             <h2>8-2-5-1-9</h2>
 <!-- Correct Answer: 82519 (remove symbols/spaces in string) - 2pts
  TIMER: 5 seconds-->
         </div>
 
-        <div class="recall">
-            <h2>Recall the sequence: </h2>
+        <div class="recall" style="display: none;">
             <input type="text" name="number-recall" required>
             <button class="next-btn">Next Section</button>
         </div>
     </div>
 
     <div id="sixthPage" class="page memory-task" style="display: none;">
-        <div id="card-cont" class="memorize-view">
+        <div id="card-cont" class="memorize">
             <h2>Remember these words (Round 2)</h2>
-            <div class="grid-contaier">
+            <div class="grid-container">
                 <div class="grid-row">
                     <div class="grid-cell">Rectangle</div>
                     <div class="grid-cell">Alphabet</div>
@@ -260,9 +261,9 @@
             </div>
         </div>
 <!-- 8 points highest-->
-        <div id="card-cont-recall-2" class="recall-view" style="display: none;">
-            <h2>Type the words you remember:</h2>
-            <div class="grid-contaier">
+        <div id="card-cont-recall-2" class="recall" style="display: none;">
+            <br><h2>Type the words you remember:</h2>
+            <div class="grid-container">
                 <div class="grid-row">
                     <input type="text" placeholder="Type word" required>
                     <input type="text" placeholder="Type word" required>
@@ -285,12 +286,12 @@
     </div>
 
     <div id="seventhPage" class="page memory-task" style="display: none;">
+        <h3>How many circles were there? </h3>
         <div class="memorize">
             <h2>○ ■ ○ ○ ▲ ■ ○</h2>
         </div>
 
-        <div class="recall">
-            <h3>How many circles were there? </h3>
+        <div class="recall" style="display: none;">
             <input type="radio" name="16th" value="a" required> 3
             <input type="radio" name="16th" value="b" required> 1
             <input type="radio" name="16th" value="c" required> 4
@@ -301,10 +302,10 @@
     </div>
 
     <div id="eighthPage" class="page memory-task" style="display: none;">
-        <div id="card-cont" class="memorize-view">
+        <div id="card-cont" class="memorize">
             <h2>Remember these words</h2>
 <!-- Correct Answer: Red and Orange - 2pts -->
-            <div class="grid-contaier">
+            <div class="grid-container">
                 <div class="grid-row">
                     <div class="grid-cell color-blue">Blue</div>
                     <div class="grid-cell">Water</div>
@@ -324,7 +325,7 @@
             </div>
         </div>
 
-        <div id="card-cont-recall-3" class="recall-view" style="display: none;">
+        <div id="card-cont-recall-3" class="recall" style="display: none;">
             <h2>How many colors were there: </h2>
             <input type="text" name="number-recall-2" required>
             <button class="next-btn">Submit Results</button>
@@ -336,7 +337,7 @@
     <div id="title-Visual" class="section-title" >
         <h1>VISUAL MEMORY</h1>
     </div>
-     <div id="visual-add" style="display: none;">
+     <div id="visual-add" class="tiles" style="display: none;">
        <div id="content">
         <button id="startBtn">Start</button>
             <div id="grid"></div>
@@ -352,43 +353,34 @@
     </div>
 
     <div id="ninthPage" class="page working-task" style="display: none;">
+        <h2>Reverse the sequence: </h2>
         <div class="memorize">
             <h2>4-2-7-1-3</h2>
 <!-- TIMER: 5 secs-->
         </div>
 <!-- Correct Answer: 31724 (remove symbols/spaces in string) - 1pts-->
-        <div class="reverse">
-            <h2>Reverse the sequence: </h2>
+        <div class="recall" style="display: none;">
             <input type="text" name="number-reverse" placeholder="e.g. 12345 to 54321" required>
             <button class="next-btn">Next Section</button>
         </div>
     </div>
 
     <div id="tenthPage" class="page working-task" style="display: none;">
-        <div>
         <h3>Identify the COLOR of each WORD </h3>
+        <div class="memorize">
 <!-- Correct Answer: red, yellow, white - 3pts -->
-            <div class="grid-contaier">
-                <div class="grid-row">
-                   <div class="grid-cell"><h2 class="stroop-1">Green</h2></div>
-                </div>
-                <div class="grid-row">
-                    <div class="grid-cell"><h2 class="stroop-2">Blue</h2></div>
-                </div>
-                <div class="grid-row">
-                    <div class="grid-cell"><h2 class="stroop-3">Black</h2></div>
-                </div>
-            </div>
+                    <h2 style="color: red;">Green</h2>
+                    <h2 style="color: yellow;">Blue</h2>                  
+                    <h2 style="color: white;">Black</h2>
         </div>
-        </div>
-            <div id="color" class="recall-view" style="display: none;"><br>
-                <input type="text" name="color-stroop-1" placeholder="e.g. ORANGE" required><br><br>
-                <input type="text" name="color-stroop-2" placeholder="e.g. RED" required><br><br>
-                <input type="text" name="color-stroop-3" placeholder="e.g. YELLOW" required>
-            </div>
+
+        <div class="recall" style="display: none;">
+            <input type="text" name="number-reverse" placeholder="e.g. violet" required>
+            <input type="text" name="number-reverse" placeholder="e.g. purple" required>
+            <input type="text" name="number-reverse" placeholder="e.g. blue" required>
+            <button class="next-btn">Next Section</button>
         </div>
     </div>
-
     <div id="eleventhPage" class="page working-task" style="display: none;">
         <h2>Multiply 6 × 7, then subtract 9.</h2>
 <!-- Correct Answer: 38 (remove symbols/spaces in string) - 1pts-->
@@ -410,18 +402,22 @@
     </div>
 
     <div id="thirteenthPage" class="page working-task" style="display: none;">
-
         <h2>Think fast: </h2>
+        <div class="memorize">
         <h4>Error or Correct: 7 + 6 x 2 = 22</h4>
+        </div>
 <!-- 5 SECS CUOUNTDOWN Correct Answer: Error )-->
+        <div class="recall" style="display: none;">
         <button class="next-btn">Error</button>
          <button class="next-btn">True</button>
-    </div>
+        </div>
+        </div>
 </div>
 
-    <div id="btn" class="recall-view" style="display: none;">
+    <div id="btn" class="recall" style="display: none;">
         <button class="next-btn">Submit Results</button>
      </div>
-    <script src="script.js"></script>
+</div>    
+<script src="script.js"></script>
     </body> 
 </html>
