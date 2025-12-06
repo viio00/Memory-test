@@ -1,4 +1,4 @@
-/*const express = require("express");
+const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 
@@ -29,9 +29,9 @@ db.query(sql, [username, email, age, program], (err, result) => {
     });
 
 // Run server
-/*app.listen(3000, () => {
+app.listen(3000, () => {
 console.log("🚀 Server running on http://localhost:3000");
-});*/
+});
 
 //THIS BULLSHIT IS FOR CLICKING THE NEXT BULLSHIT
 document.getElementById('start-btn').addEventListener('click', function() {
