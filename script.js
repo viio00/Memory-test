@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 host: "localhost",
 user: "root", // change if needed
 password: "", // add your MySQL password
-database: "usersdb" // create this DB in MySQL
+database: "itelfinals" // create this DB in MySQL
 });
 db.connect(err => {
     if (err) throw err;
