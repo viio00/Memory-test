@@ -8,6 +8,8 @@
 </head>
 
 <body>
+<form id="registerForm" action="http://localhost:3000/register" method="POST">
+
 <div id="timer" class="timerDisplay" style="display: none;"></div>
 <div id="info" class="page">
     <label>Name:</label>
@@ -138,7 +140,7 @@
     <div id="thirdPage" class="page" style="display: none;">
         <div class="question-group">
             <label>Who proposed the theory of general relativity?</label>
-            <input type="text" name="11th" required>
+            <input type="text" name="CK1" required>
 <!-- Correct Answer: Albert Einstein - 1 pt
  *REMINDER: string toLowerCase(), remove spaces and other symbols to be accepted
  Accept 'Einstein'-->
@@ -146,25 +148,25 @@
 
         <div class="question-group">
             <label>In what year did World War I start?</label>
-            <input type="text" name="12th" required>
+            <input type="text" name="CK2" required>
 <!-- Correct Answer: 1914 - 1 pt-->
         </div>
 
         <div class="question-group">
             <label>Who discovered gravity after seeing an apple fall (according to popular story)?</label>
-            <input type="text" name="13th" required>
+            <input type="text" name="CK3" required>
 <!-- Correct Answer: Isaac Newton (or 'Newton') - 1 pt -->
         </div>
 
         <div class="question-group">
             <label>What is the largest ocean on Earth?</label>
-            <input type="text" name="14th" required>
+            <input type="text" name="CK4" required>
 <!-- Correct Answer: Pacific ocean - 1 pt-->
         </div>
 
         <div class="question-group"> 
             <label>Which country has the largest population?</label>
-            <input type="text" name="15th" required>
+            <input type="text" name="CK5" required>
 <!-- Correct Answer: India - 1 pt-->
         </div>
         <button class="next-btn">Next Section</button>
@@ -204,20 +206,20 @@
             <h2>Type the words you remember:</h2>
             <div class="grid-container">
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
+                    <input type="text" name="stm_word1" placeholder="Type word" required>
                 </div>
             </div>
             <button class="next-btn">Next Sequence</button>
@@ -265,20 +267,20 @@
             <br><h2>Type the words you remember:</h2>
             <div class="grid-container">
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word2"placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
                 </div>
                 <div class="grid-row">
-                    <input type="text" placeholder="Type word" required>
-                    <input type="text" placeholder="Type word" required>
+                    <input type="text" name="stm_word2" placeholder="Type word" required>
+                    <input type="text" name="stm_word2"placeholder="Type word" required>
                 </div>
             </div>
             <button class="next-btn">Next Sequence</button>
@@ -417,7 +419,8 @@
     <div id="btn" class="recall" style="display: none;">
         <button class="next-btn">Submit Results</button>
      </div>
-</div>    
+</div> 
+</form>   
 <script src="script.js"></script>
     </body> 
 </html>

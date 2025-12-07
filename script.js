@@ -1,44 +1,38 @@
-/*const express = require("express");
-const bodyParser = require("body-parser");
-const mysql = require("mysql2");
+/**
+ * Mga butas/need pa sa gawa natin:
+ * 1. Empty input != start/next button
+ * 2. refreshing
+ * 3. Pointing system 
+ * 4. SQL connection
+ * 5. Back to info page (then back to current)
+ */
+document.getElementById('start-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // prevent default behavior (like form submission)
 
-// Create Express app
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+    const startPage = document.getElementById('info'); // start page
+    const inputs = startPage.querySelectorAll('input');
 
-// Database connection
-const db = mysql.createConnection({
-host: "localhost",
-user: "root", // change if needed
-password: "", // add your MySQL password
-database: "usersdb" // create this DB in MySQL
-});
-db.connect(err => {
-    if (err) throw err;
-    console.log("✅ Connected to database");
-    });
+    // Validate all inputs on the start page
+    for (const input of inputs) {
 
-// Route to handle form submission
-app.post("/register", validateRegistration, (req, res) => {
-const { username, email, age, program} = req.body;
-const sql = "INSERT INTO users (username, email, age, program) VALUES (?, ?, ?, ?)";
-db.query(sql, [username, email, age, program], (err, result) => {
-        if (err) throw err;
-        res.send("🎉 Registration successful!");
-        });
-    });
+        if (input.type === 'radio' && input.name) {
+            const checked = startPage.querySelector(`input[name="${input.name}"]:checked`);
+            if (!checked) {
+                alert('Please select an option for all questions before starting.');
+                return; // stop here
+            }
+        } else if (input.value.trim() === '') {
+            alert('Please fill in all required fields before starting.');
+            return; // stop here 
+        }
+    }
 
-// Run server
-/*app.listen(3000, () => {
-console.log("🚀 Server running on http://localhost:3000");
-});*/
-
-//THIS BULLSHIT IS FOR CLICKING THE NEXT BULLSHIT
-document.getElementById('start-btn').addEventListener('click', function() {
-    document.getElementById('info').style.display = 'none';
+    // If validation passes, show first page
+    startPage.style.display = 'none';
     document.getElementById('firstPage').style.display = 'block';
     document.getElementById('next-btn').disabled = false;
 });
+
 const timedPages = [
     'fourthPage', 'fifthPage', 'sixthPage', 
     'seventhPage', 'eighthPage', 'ninthPage', 'tenthPage',
