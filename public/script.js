@@ -1,47 +1,110 @@
-/**
- * Mga butas/need pa sa gawa natin:
- * 1. Empty input != start/next button
- * 2. refreshing
- * 3. Pointing system 
- * 4. SQL connection
- * 5. Back to info page (then back to current)
- */
-document.getElementById('start-btn').addEventListener('click', function(event) {
-    event.preventDefault(); // prevent default behavior (like form submission)
 
-    const startPage = document.getElementById('info'); // start page
-    const inputs = startPage.querySelectorAll('input');
-
-    // Validate all inputs on the start page
-    for (const input of inputs) {
-
-        if (input.type === 'radio' && input.name) {
-            const checked = startPage.querySelector(`input[name="${input.name}"]:checked`);
-            if (!checked) {
-                alert('Please select an option for all questions before starting.');
-                return; // stop here
-            }
-        } else if (input.value.trim() === '') {
-            alert('Please fill in all required fields before starting.');
-            return; // stop here 
-        }
-    }
-
-    // If validation passes, show first page
-    startPage.style.display = 'none';
-    document.getElementById('firstPage').style.display = 'block';
-    document.getElementById('next-btn').disabled = false;
-});
-
+// GLOBAL VARIABLES PLS PLSPLS DONT TOUCH NA
 const timedPages = [
-    'fourthPage', 'fifthPage', 'sixthPage', 
+    'fourthPage', 'fifthPage', 'sixthPage',
     'seventhPage', 'eighthPage', 'ninthPage', 'tenthPage',
     'thirteenthPage'
 ];
 
+const pages = [
+    'info',
+    'firstPage',
+    'secondPage',
+    'thirdPage',
+    'fourthPage',
+    'fifthPage',
+    'sixthPage',
+    'seventhPage',
+    'eighthPage',
+    'visual-add',
+    'ninthPage',
+    'tenthPage',
+    'eleventhPage',
+    'twelfthPage',
+    'thirteenthPage',
+    "btn" 
+];
+
+let currentPageIndex = 0; 
+let totalPoints = 0;
+const nextButtons = document.querySelectorAll('.next-btn');
+
+
+// START BUTTON HANDLER (FIXED: Validation works and stops the skip FINALLLYYY)
+
+
+document.getElementById('start-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // 1. Always prevent the default form action
+
+    const startPage = document.getElementById('info');
+    
+    // Selects only the required text inputs 
+    const inputs = startPage.querySelectorAll('input[type="text"][required]'); 
+    
+    let allFilled = true;
+
+    for (const input of inputs) {
+        if (input.value.trim() === '') {
+            allFilled = false;
+            break; 
+        }
+    }
+
+    if (!allFilled) {
+        alert('Please fill in all required fields before starting.');
+        return; // 
+    }
+
+    startPage.style.display = 'none';
+    
+    currentPageIndex++; 
+    
+    if (currentPageIndex < pages.length) {
+        document.getElementById(pages[currentPageIndex]).style.display = 'block';
+    }
+}); 
+
+
+// CORE VALIDATION FUNCTION (THIS IS NEW PLEASE DONT TOUCH THIS I BEG OF YOU THIS IS SO IMPORTANT IT VALIDATES THE INPUT BOXES.)
+
+/**
+ * Checks if all required inputs (text) on a given page are filled.
+ */
+function validatePage(pageElement) {
+    // 1. Check Text Inputs
+    const requiredTextInputs = pageElement.querySelectorAll('input[type="text"][required]');
+    for (const input of requiredTextInputs) {
+        if (input.value.trim() === '') {
+            return false;
+        }
+    }
+
+    // 2. Check Radio Button Groups
+    const radioGroups = {};
+    pageElement.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+        const name = radio.name;
+        if (name) { 
+            if (!radioGroups[name]) {
+                radioGroups[name] = false; 
+            }
+            if (radio.checked) {
+                radioGroups[name] = true; 
+            }
+        }
+    });
+
+    for (const name in radioGroups) {
+        if (!radioGroups[name]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 ///////////////////////////////////TIMER////////////////////////////////////////////////
 function startTimedPage(pageId){
-    console.log("Starting Timer for:", pageId);
     if (!timedPages.includes(pageId)) return;
 
     const page = document.getElementById(pageId);
@@ -56,18 +119,18 @@ function startTimedPage(pageId){
     let timeLeft = 5;
 
     const timer = document.getElementById("timer");
-    timer.style.display = "block";
-    timer.textContent = timeLeft;
-
-    console.log("Timer Started, timeleft: "+ timeLeft);
+    if (timer) {
+        timer.style.display = "block";
+        timer.textContent = timeLeft;
+    }
 
     const countdown = setInterval(() => {
         timeLeft--;
-        timer.textContent = timeLeft;
+        if (timer) timer.textContent = timeLeft;
 
         if (timeLeft <= 0) {
             clearInterval(countdown)
-            timer.style.display = "none";
+            if (timer) timer.style.display = "none";
 
             if (memorize) memorize.style.display = "none";
 
@@ -76,470 +139,241 @@ function startTimedPage(pageId){
     }, 1000);
 }
 
-//BUTTONS WITH TIMER
-const nextButtons = document.querySelectorAll('.next-btn');
-let currentPageIndex = 1;
-let totatPoints = 0;
 
-const pages = [
-    'info', 
-
-    'firstPage', 
-    'secondPage', 
-
-    'thirdPage',
-
-    'fourthPage',
-    'fifthPage',
-    'sixthPage', 
-    'seventhPage', 
-    'eighthPage',
-
-    'visual-add',
-
-    'ninthPage', 
-    'tenthPage', 
-    'eleventhPage', 
-    'twelfthPage', 
-    'thirteenthPage',
-
-    "btn"
-];
-
-// Points mapping function for each question
-function getPointsForAnswer(name, value) {
-    const pointsMap = {
-        // Cognitive Ability Survey
-        '1st': { // How easily do you lose focus during tasks?
-            'a': 1, // Never
-            'b': 2, // Rarely
-            'c': 3, // Sometimes
-            'd': 4, // Often
-            'e': 5  // Always
-        },
-        '2nd': { // How confident are you in making quick decisions?
-            'a': 1, // Not Confident
-            'b': 2, // Slightly Confident
-            'c': 3, // Moderately Confident
-            'd': 4, // Confident
-            'e': 5  // Very Confident
-        },
-        '3rd': { // How often do you feel stuck when solving problems?
-            'a': 1, // 0-1 days
-            'b': 2, // 2-3 days
-            'c': 3, // 4-5 days
-            'd': 4, // 1 week
-            'e': 5  // More than a week
-        },
-        '4th': { // Is it easy to connect new information to what you know?
-            'a': 1, // Very Difficult
-            'b': 2, // Difficult
-            'c': 3, // Neutral
-            'd': 4, // Easy
-            'e': 5  // Very Easy
-        },
-        '5th': { // Do you prefer focusing on details or big picture first?
-            'a': 1, // Details First
-            'b': 3, // Balanced Focus
-            'c': 5  // Big Picture First
-        },
-
-        // Memory Confidence Survey
-        '6th': { // When introduced to a list of 10 items, how many do you remember?
-            'a': 1, // 0-2
-            'b': 2, // 3-5
-            'c': 3, // 6-8
-            'd': 4  // 9-10
-        },
-        '7th': { // How easy is it to remember a sequence of numbers?
-            'a': 1, // Very Difficult
-            'b': 2, // Difficult
-            'c': 3, // Neutral
-            'd': 4, // Easy
-            'e': 5  // Very Easy
-        },
-        '8th': { // After reading a short paragraph, how well do you recall main details?
-            'a': 1, // Not at all
-            'b': 2, // Slightly
-            'c': 3, // Moderately Well
-            'd': 4, // Well
-            'e': 5  // Very Well
-        },
-        '9th': { // How often do you forget where you placed everyday items?
-            'a': 1, // Rarely
-            'b': 2, // Occasionally
-            'c': 3, // Frequently
-            'd': 4, // Almost Always
-            'e': 5  // Always
-        },
-        '10th': { // How likely are you to recall a word after 5 minutes?
-            'a': 1, // Very Unlikely
-            'b': 2, // Somewhat Unlikely
-            'c': 3, // Somewhat Likely
-            'd': 4, // Likely
-            'e': 5  // Very Likely
-        },
-
-        // Common Knowledge Recall (General Facts)
-        '11th': { // Who proposed the theory of general relativity?
-            'einstein': 1,  // Answer is case-insensitive
-        },
-        '12th': { // In what year did WWI start?
-            '1914': 1,
-        },
-        '13th': { // Who discovered gravity after seeing an apple fall?
-            'newton': 1,  // Answer is case-insensitive
-        },
-        '14th': { // What is the largest ocean on Earth?
-            'pacific ocean': 1,  // Answer is case-insensitive
-        },
-        '15th': { // Which country has the largest population?
-            'india': 1,  // Answer is case-insensitive
-        },
-
-        // Short Term Memory (STM)
-        '16th': { // How many circles were there? (e.g., ○ ■ ○ ○ ▲ ■ ○)
-            'c': 1, // Correct Answer is 4 circles
-        },
-
-        // Visual Memory (e.g., colors, patterns)
-        'color-recall': { // How many colors were there? (e.g., Red and Orange)
-            '2': 2, // Correct Answer is 2 colors
-        },
-        
-        // Working Memory (e.g., arithmetic, pattern recall)
-        'working-memory': { // Reverse sequence or other working memory questions
-            '38': 1,  // Correct answer is 38 for some calculations
-        },
-    };
-
-    // Return points for the given answer
-    return pointsMap[name] && pointsMap[name][value.toLowerCase()] || 0;
-}
-
-// Collect Points for Answers
-function collectPoints() {
-    // Cognitive Ability Survey
-    totalPoints += getPointsForAnswer('1st', document.querySelector('input[name="1st"]:checked')?.value);
-    totalPoints += getPointsForAnswer('2nd', document.querySelector('input[name="2nd"]:checked')?.value);
-    totalPoints += getPointsForAnswer('3rd', document.querySelector('input[name="3rd"]:checked')?.value);
-    totalPoints += getPointsForAnswer('4th', document.querySelector('input[name="4th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('5th', document.querySelector('input[name="5th"]:checked')?.value);
-
-    // Memory Confidence Survey
-    totalPoints += getPointsForAnswer('6th', document.querySelector('input[name="6th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('7th', document.querySelector('input[name="7th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('8th', document.querySelector('input[name="8th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('9th', document.querySelector('input[name="9th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('10th', document.querySelector('input[name="10th"]:checked')?.value);
-
-    // Common Knowledge Recall
-    totalPoints += getPointsForAnswer('11th', document.querySelector('input[name="11th"]').value);
-    totalPoints += getPointsForAnswer('12th', document.querySelector('input[name="12th"]').value);
-    totalPoints += getPointsForAnswer('13th', document.querySelector('input[name="13th"]').value);
-    totalPoints += getPointsForAnswer('14th', document.querySelector('input[name="14th"]').value);
-    totalPoints += getPointsForAnswer('15th', document.querySelector('input[name="15th"]').value);
-
-    // Short Term Memory (STM)
-    totalPoints += getPointsForAnswer('16th', document.querySelector('input[name="16th"]:checked')?.value);
-
-    // Visual Memory
-    totalPoints += getPointsForAnswer('color-recall', document.querySelector('input[name="color-recall"]').value);
-
-    // Working Memory (for example reverse calculations or answers)
-    totalPoints += getPointsForAnswer('working-memory', document.querySelector('input[name="working-memory"]').value);
-}
-
-function getPointsForAnswer(name, value) {
-    const pointsMap = {
-        // Cognitive Ability Survey
-        '1st': { // How easily do you lose focus during tasks?
-            'a': 1, // Never
-            'b': 2, // Rarely
-            'c': 3, // Sometimes
-            'd': 4, // Often
-            'e': 5  // Always
-        },
-        '2nd': { // How confident are you in making quick decisions?
-            'a': 1, // Not Confident
-            'b': 2, // Slightly Confident
-            'c': 3, // Moderately Confident
-            'd': 4, // Confident
-            'e': 5  // Very Confident
-        },
-        '3rd': { // How often do you feel stuck when solving problems?
-            'a': 1, // 0-1 days
-            'b': 2, // 2-3 days
-            'c': 3, // 4-5 days
-            'd': 4, // 1 week
-            'e': 5  // More than a week
-        },
-        '4th': { // Is it easy to connect new information to what you know?
-            'a': 1, // Very Difficult
-            'b': 2, // Difficult
-            'c': 3, // Neutral
-            'd': 4, // Easy
-            'e': 5  // Very Easy
-        },
-        '5th': { // Do you prefer focusing on details or big picture first?
-            'a': 1, // Details First
-            'b': 3, // Balanced Focus
-            'c': 5  // Big Picture First
-        },
-
-        // Memory Confidence Survey
-        '6th': { // When introduced to a list of 10 items, how many do you remember?
-            'a': 1, // 0-2
-            'b': 2, // 3-5
-            'c': 3, // 6-8
-            'd': 4  // 9-10
-        },
-        '7th': { // How easy is it to remember a sequence of numbers?
-            'a': 1, // Very Difficult
-            'b': 2, // Difficult
-            'c': 3, // Neutral
-            'd': 4, // Easy
-            'e': 5  // Very Easy
-        },
-        '8th': { // After reading a short paragraph, how well do you recall main details?
-            'a': 1, // Not at all
-            'b': 2, // Slightly
-            'c': 3, // Moderately Well
-            'd': 4, // Well
-            'e': 5  // Very Well
-        },
-        '9th': { // How often do you forget where you placed everyday items?
-            'a': 1, // Rarely
-            'b': 2, // Occasionally
-            'c': 3, // Frequently
-            'd': 4, // Almost Always
-            'e': 5  // Always
-        },
-        '10th': { // How likely are you to recall a word after 5 minutes?
-            'a': 1, // Very Unlikely
-            'b': 2, // Somewhat Unlikely
-            'c': 3, // Somewhat Likely
-            'd': 4, // Likely
-            'e': 5  // Very Likely
-        },
-
-        // Common Knowledge Recall (General Facts)
-        '11th': { // Who proposed the theory of general relativity?
-            'einstein': 1,  // Answer is case-insensitive
-        },
-        '12th': { // In what year did WWI start?
-            '1914': 1,
-        },
-        '13th': { // Who discovered gravity after seeing an apple fall?
-            'newton': 1,  // Answer is case-insensitive
-        },
-        '14th': { // What is the largest ocean on Earth?
-            'pacific ocean': 1,  // Answer is case-insensitive
-        },
-        '15th': { // Which country has the largest population?
-            'india': 1,  // Answer is case-insensitive
-        },
-
-        // Short Term Memory (STM)
-        '16th': { // How many circles were there? (e.g., ○ ■ ○ ○ ▲ ■ ○)
-            'c': 1, // Correct Answer is 4 circles
-        },
-
-        // Visual Memory (e.g., colors, patterns)
-        'color-recall': { // How many colors were there? (e.g., Red and Orange)
-            '2': 2, // Correct Answer is 2 colors
-        },
-        
-        // Working Memory (e.g., arithmetic, pattern recall)
-        'working-memory': { // Reverse sequence or other working memory questions
-            '38': 1,  // Correct answer is 38 for some calculations
-        },
-    };
-
-    // Return points for the given answer
-    return pointsMap[name] && pointsMap[name][value.toLowerCase()] || 0;
-}
-
-// Collect Points for Answers
-function collectPoints() {
-    // Cognitive Ability Survey
-    totalPoints += getPointsForAnswer('1st', document.querySelector('input[name="1st"]:checked')?.value);
-    totalPoints += getPointsForAnswer('2nd', document.querySelector('input[name="2nd"]:checked')?.value);
-    totalPoints += getPointsForAnswer('3rd', document.querySelector('input[name="3rd"]:checked')?.value);
-    totalPoints += getPointsForAnswer('4th', document.querySelector('input[name="4th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('5th', document.querySelector('input[name="5th"]:checked')?.value);
-
-    // Memory Confidence Survey
-    totalPoints += getPointsForAnswer('6th', document.querySelector('input[name="6th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('7th', document.querySelector('input[name="7th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('8th', document.querySelector('input[name="8th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('9th', document.querySelector('input[name="9th"]:checked')?.value);
-    totalPoints += getPointsForAnswer('10th', document.querySelector('input[name="10th"]:checked')?.value);
-
-    // Common Knowledge Recall
-    totalPoints += getPointsForAnswer('11th', document.querySelector('input[name="11th"]').value);
-    totalPoints += getPointsForAnswer('12th', document.querySelector('input[name="12th"]').value);
-    totalPoints += getPointsForAnswer('13th', document.querySelector('input[name="13th"]').value);
-    totalPoints += getPointsForAnswer('14th', document.querySelector('input[name="14th"]').value);
-    totalPoints += getPointsForAnswer('15th', document.querySelector('input[name="15th"]').value);
-
-    // Short Term Memory (STM)
-    totalPoints += getPointsForAnswer('16th', document.querySelector('input[name="16th"]:checked')?.value);
-
-    // Visual Memory
-    totalPoints += getPointsForAnswer('color-recall', document.querySelector('input[name="color-recall"]').value);
-
-    // Working Memory (for example reverse calculations or answers)
-    totalPoints += getPointsForAnswer('working-memory', document.querySelector('input[name="working-memory"]').value);
-}
+// NEXT BUTTON HANDLER (ETO UNG PROBLEM REN, PERO MAY VALIDATION NA SYA SO DI NA MAGSSKIP
 
 nextButtons.forEach(button => {
-    button.addEventListener('click', function(){
+    button.addEventListener('click', function(event){
         
         const currentPageId = pages[currentPageIndex];
         const currentPage = document.getElementById(currentPageId);
+
+        if (currentPageId !== 'btn' && !validatePage(currentPage)) {
+            alert('Please answer all required questions before proceeding.');
+            return;
+        }
+
+        if (currentPageId !== 'info' && currentPageId !== 'btn') {
+             calculatePagePoints(currentPage);
+        }
 
         if (currentPage) currentPage.style.display = 'none';
 
         currentPageIndex++;
 
         if (currentPageIndex < pages.length) {
-            
+
             const nextPageId = pages[currentPageIndex];
             const nextPage = document.getElementById(nextPageId);
 
             nextPage.style.display = 'block';
 
-            startTimedPage(nextPageId);
+            if (nextPageId !== 'visual-add') {
+                 startTimedPage(nextPageId);
+            }
 
         } else {
-            alert('Test Finished');
-            button.disabled = true;
+            alert('Test Finished! Submit your results.');
+            button.disabled = true; 
         }
     })
 })
 
-//FOR VISUAL MEMO
-  const gridSize = 5;   // 5×5 grid
-    const flashCount = 5; // how many tiles flash each round
 
-    let flashTiles = [];
-    let clickable = false;
 
-    const grid = document.getElementById('grid');
-    const message = document.getElementById('message');
-    const startBtn = document.getElementById('startBtn');
 
-    function createGrid() {
-      grid.innerHTML = '';
-      for (let i = 0; i < gridSize * gridSize; i++) {
+function getPointsForAnswer(name, value) {
+    // Note: The keys here MUST match the 'name' attributes in your HTML so it doesnt get confused
+    const pointsMap = {
+        // Cognitive Ability Survey (1st-5th)
+        '1st': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '2nd': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '3rd': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '4th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '5th': { 'a': 1, 'b': 3, 'c': 5 },
+
+        // Memory Confidence Survey (6th-10th)
+        '6th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4 },
+        '7th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '8th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '9th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+        '10th': { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5 },
+
+        // Common Knowledge Recall (3rd Page: using CK1-CK5 from your HTML)
+        'CK1': { 'albert einstein': 1, 'einstein': 1 }, 
+        'CK2': { '1914': 1 },
+        'CK3': { 'isaac newton': 1, 'newton': 1 }, 
+        'CK4': { 'pacific ocean': 1, 'pacific': 1 }, 
+        'CK5': { 'india': 1 }, 
+
+        // Short Term Memory (STM - 7th Page)
+        '16th': { 'c': 1 }, // Correct answer for 'How many circles' is C (4)
+
+        // Visual Memory (8th Page - Number of colors)
+        'number-recall-2': { '3': 2 }, 
+
+        // Working Memory (11th Page - Math problem)
+        'multiply': { '33': 1 }, // 6 * 7 = 42. 42 - 9 = 33. **Correct Answer**
+        
+        // Add other simple text/radio questions here:
+        // 'number-reverse': {'31724': 1}, // For 9th Page
+        // 'no-charger': {'notebook and usb': 1, 'notebook, usb': 1} // For 12th Page
+    };
+
+    const cleanedValue = value ? value.toString().toLowerCase().replace(/[^a-z0-9\s]/g, '').trim() : '';
+
+    return pointsMap[name] && pointsMap[name][cleanedValue] || 0;
+}
+
+/**
+ * Calculates the score for the current page before advancing.
+ */
+function calculatePagePoints(pageElement) {
+    let pagePoints = 0;
+    const inputs = pageElement.querySelectorAll('input, select'); 
+
+    inputs.forEach(input => {
+        let value = input.value;
+        if (input.type === 'radio' && !input.checked) {
+            return; 
+        }
+        if (input.type === 'radio') {
+            value = input.value;
+        }
+
+        // Add points for matching name/value pairs
+        pagePoints += getPointsForAnswer(input.name, value);
+    });
+
+    totalPoints += pagePoints;
+}
+
+// FINAL FORM SUBMISSION LOGIC (using fetch)
+
+document.querySelector("#btn button")?.addEventListener("click", async function (e) {
+    if (this.disabled) return;
+    
+    e.preventDefault(); 
+
+    const name = document.getElementById("name")?.value;
+    const email = document.getElementById("email")?.value;
+    const age = document.getElementById("age")?.value;
+    const program = document.getElementById("program")?.value;
+
+    this.disabled = true; 
+
+    const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            age,
+            program,
+            finalScore: totalPoints
+        })
+    });
+
+    const result = await response.text();
+    alert(`Submission complete. Server response: ${result}`);
+});
+
+
+// VISUAL MEMORY GAME LOGIC (untouched)
+
+const gridSize = 5; 
+const flashCount = 5; 
+
+let flashTiles = [];
+let clickable = false;
+
+const grid = document.getElementById('grid');
+const message = document.getElementById('message');
+const startBtn = document.getElementById('startBtn'); 
+
+function createGrid() {
+    if (!grid) return; 
+    grid.innerHTML = '';
+    for (let i = 0; i < gridSize * gridSize; i++) {
         const div = document.createElement('div');
         div.classList.add('tile');
         div.dataset.index = i;
         div.addEventListener('click', tileClick);
         grid.appendChild(div);
-      }
     }
+}
 
-    let currentRound = 0;
-    const maxRounds = 5;
+let currentRound = 0;
+const maxRounds = 5;
 
-    function startRound() {
-    
-        if (currentRound >= maxRounds) {
-        message.textContent = '🎉 All 5 rounds complete!';
+function startRound() {
+    if (currentRound >= maxRounds) {
+        if (message) message.textContent = '🎉 All 5 rounds complete!';
         clickable = false;
         return;
-        }
+    }
 
-        currentRound++;
-        clickable = false;
-        flashTiles = [];
-        message.textContent = `Round ${currentRound} of ${maxRounds}`
+    currentRound++;
+    clickable = false;
+    flashTiles = [];
+    if (message) message.textContent = `Round ${currentRound} of ${maxRounds}`
 
-      // pick random tiles
-      const total = gridSize * gridSize;
-      while (flashTiles.length < flashCount) {
+    const total = gridSize * gridSize;
+    while (flashTiles.length < flashCount) {
         const r = Math.floor(Math.random() * total);
         if (!flashTiles.includes(r)) {
-          flashTiles.push(r);
+            flashTiles.push(r);
         }
-      }
+    }
 
-      // flash them
-      flashTiles.forEach(i => {
+    flashTiles.forEach(i => {
         const t = grid.querySelector(`.tile[data-index="${i}"]`);
-        t.classList.add('flash');
-      });
-
-      setTimeout(() => {
-        // remove flash, allow clicks
-        flashTiles.forEach(i => {
-          const t = grid.querySelector(`.tile[data-index="${i}"]`);
-          t.classList.remove('flash');
-        });
-        clickable = true;
-        message.textContent = 'Click the tiles you saw flash.';
-      }, 1000); // show flash for 1s
-    }
-
-    let selected = [];
-
-    function tileClick(e) {
-      if (!clickable) return;
-      const idx = parseInt(e.target.dataset.index);
-      if (e.target.classList.contains('selected')) return;
-
-      e.target.classList.add('selected');
-      selected.push(idx);
-
-      if (selected.length === flashTiles.length) {
-        clickable = false;
-        // check if correct
-        const correct = flashTiles.every(i => selected.includes(i));
-        if (correct) {
-          message.textContent = 'Correct! You passed.';
-        } else {
-          message.textContent = 'Oopsies!';
-        }
-        // reset after delay
-        setTimeout(() => {
-          grid.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
-          selected = [];
-          startRound();
-        }, 1500);
-      }
-    }
-
-    startBtn.addEventListener('click', () => {
-      createGrid();
-      startRound();
+        if (t) t.classList.add('flash');
     });
 
-    // initial build
-    createGrid();
-        
-document.getElementById("registerForm").addEventListener("submit", async function (e) {
-  e.preventDefault(); // ✅ STOP PAGE RELOAD
+    setTimeout(() => {
+        flashTiles.forEach(i => {
+            const t = grid.querySelector(`.tile[data-index="${i}"]`);
+            if (t) t.classList.remove('flash');
+        });
+        clickable = true;
+        if (message) message.textContent = 'Click the tiles you saw flash.';
+    }, 1000); 
+}
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const age = document.getElementById("age").value;
-  const program = document.getElementById("program").value;
+let selected = [];
 
-  const response = await fetch("http://localhost:3000/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      name,
-      email,
-      age,
-      program
-    })
-  });
+function tileClick(e) {
+    if (!clickable) return;
+    const idx = parseInt(e.target.dataset.index);
+    if (e.target.classList.contains('selected')) return;
 
-  const result = await response.text();
-  alert(result); // ✅ shows success or error message
-});
+    e.target.classList.add('selected');
+    selected.push(idx);
+
+    if (selected.length === flashTiles.length) {
+        clickable = false;
+        const correct = flashTiles.every(i => selected.includes(i));
+        if (correct) {
+            if (message) message.textContent = 'Correct! You passed.';
+        } else {
+            if (message) message.textContent = 'Oopsies!';
+        }
+        setTimeout(() => {
+            if (grid) grid.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
+            selected = [];
+            startRound();
+        }, 1500);
+    }
+}
+
+if (startBtn) {
+    startBtn.addEventListener('click', () => {
+        createGrid();
+        startRound();
+    });
+}
+
+createGrid();
