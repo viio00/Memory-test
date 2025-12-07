@@ -71,35 +71,32 @@ document.getElementById('start-btn').addEventListener('click', function(event) {
  * Checks if all required inputs (text) on a given page are filled.
  */
 function validatePage(pageElement) {
-    // 1. Check Text Inputs
-    const requiredTextInputs = pageElement.querySelectorAll('input[type="text"][required]');
-    for (const input of requiredTextInputs) {
-        if (input.value.trim() === '') {
-            return false;
+    let isValid = true;
+
+    // Check radio groups
+    const radioGroups = {};
+    pageElement.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+        if (!radioGroups[radio.name]) radioGroups[radio.name] = false;
+        if (radio.checked) radioGroups[radio.name] = true;
+    });
+
+    for (const group in radioGroups) {
+        if (!radioGroups[group]) {
+            alert('Please answer all required questions!');
+            isValid = false;
+            break;
         }
     }
 
-    // 2. Check Radio Button Groups
-    const radioGroups = {};
-    pageElement.querySelectorAll('input[type="radio"][required]').forEach(radio => {
-        const name = radio.name;
-        if (name) { 
-            if (!radioGroups[name]) {
-                radioGroups[name] = false; 
-            }
-            if (radio.checked) {
-                radioGroups[name] = true; 
-            }
+    // Check text inputs
+    pageElement.querySelectorAll('input[type="text"][required]').forEach(input => {
+        if (input.value.trim() === '') {
+            alert('Please fill all required fields!');
+            isValid = false;
         }
     });
 
-    for (const name in radioGroups) {
-        if (!radioGroups[name]) {
-            return false;
-        }
-    }
-
-    return true;
+    return isValid;
 }
 
 
@@ -172,15 +169,18 @@ nextButtons.forEach(button => {
                  startTimedPage(nextPageId);
             }
 
+             // DISPLAY SCORE IF FINAL PAGE
+            if (nextPageId === 'btn') {
+            const finalScoreEl = document.getElementById('final-score');
+            if (finalScoreEl) finalScoreEl.textContent = totalPoints;
+            }
+
         } else {
             alert('Test Finished! Submit your results.');
             button.disabled = true; 
         }
     })
 })
-
-
-
 
 function getPointsForAnswer(name, value) {
     // Note: The keys here MUST match the 'name' attributes in your HTML so it doesnt get confused
@@ -207,17 +207,30 @@ function getPointsForAnswer(name, value) {
         'CK5': { 'india': 1 }, 
 
         // Short Term Memory (STM - 7th Page)
-        '16th': { 'c': 1 }, // Correct answer for 'How many circles' is C (4)
+        'stm_word1': { 
+            'vase': 1, 'tiger': 1, 'hat': 1, 'spade': 1,
+            'orange': 1, 'ice cream': 1, 'blue': 1, 'guitar': 1
+        },
+        'stm_word2': { 
+            'rectangle': 1, 'alphabet': 1, 'bathroom': 1, 'hydrogen': 1,
+            'observing': 1, 'comparison': 1, 'product': 1, 'solution': 1
+        },
 
-        // Visual Memory (8th Page - Number of colors)
-        'number-recall-2': { '3': 2 }, 
+        // Short Term Memory circle question
+        '16th': { 'c': 1 }, 
 
         // Working Memory (11th Page - Math problem)
         'multiply': { '33': 1 }, // 6 * 7 = 42. 42 - 9 = 33. **Correct Answer**
-        
-        // Add other simple text/radio questions here:
-        // 'number-reverse': {'31724': 1}, // For 9th Page
-        // 'no-charger': {'notebook and usb': 1, 'notebook, usb': 1} // For 12th Page
+
+        // Working Memory
+        'number-reverse': { '31724': 1 }, // 4-2-7-1-3 reversed
+        'multiply': { '33': 1 }, // 6*7-9
+        'no-charger': { 'notebookusb': 1, 'notebook and usb': 1 }, // cleaned answers
+        '16th': { 'c': 1 }, // circles
+        '7+6x2': { 'error': 1, 'true': 0 }, // final page
+
+        // Visual Memory
+        'visualMemory': { 'round1': 1, 'round2': 1, 'round3': 1, 'round4': 1, 'round5': 1 }
     };
 
     const cleanedValue = value ? value.toString().toLowerCase().replace(/[^a-z0-9\s]/g, '').trim() : '';
@@ -281,13 +294,14 @@ document.querySelector("#btn button")?.addEventListener("click", async function 
 });
 
 
-// VISUAL MEMORY GAME LOGIC (untouched)
+// VISUAL MEMORY GAME LOGIC (with score)
 
 const gridSize = 5; 
 const flashCount = 5; 
 
 let flashTiles = [];
 let clickable = false;
+let score = 0; // track score
 
 const grid = document.getElementById('grid');
 const message = document.getElementById('message');
@@ -310,7 +324,7 @@ const maxRounds = 5;
 
 function startRound() {
     if (currentRound >= maxRounds) {
-        if (message) message.textContent = '🎉 All 5 rounds complete!';
+        if (message) message.textContent = `🎉 All ${maxRounds} rounds complete! Your final score: ${score}`;
         clickable = false;
         return;
     }
@@ -318,7 +332,7 @@ function startRound() {
     currentRound++;
     clickable = false;
     flashTiles = [];
-    if (message) message.textContent = `Round ${currentRound} of ${maxRounds}`
+    if (message) message.textContent = `Round ${currentRound} of ${maxRounds}. Current score: ${score}`;
 
     const total = gridSize * gridSize;
     while (flashTiles.length < flashCount) {
@@ -357,9 +371,10 @@ function tileClick(e) {
         clickable = false;
         const correct = flashTiles.every(i => selected.includes(i));
         if (correct) {
-            if (message) message.textContent = 'Correct! You passed.';
+            score++; // NEW: increment score for correct round
+            if (message) message.textContent = `Correct! You passed. Current score: ${score}`;
         } else {
-            if (message) message.textContent = 'Oopsies!';
+            if (message) message.textContent = `Oopsies! Current score: ${score}`;
         }
         setTimeout(() => {
             if (grid) grid.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
@@ -372,8 +387,21 @@ function tileClick(e) {
 if (startBtn) {
     startBtn.addEventListener('click', () => {
         createGrid();
+        score = 0; // reset score on new game
+        currentRound = 0;
         startRound();
     });
 }
 
 createGrid();
+
+// After the visual memory game completes all rounds, add its score to totalPoints
+const visualNextBtn = document.querySelector('#visual-add .next-btn');
+
+if (visualNextBtn) {
+    visualNextBtn.addEventListener('click', () => {
+        totalPoints += score; // Add visual memory game score to overall points
+        console.log('Visual Memory Score added:', score, 'Total Points:', totalPoints);
+    });
+}
+
