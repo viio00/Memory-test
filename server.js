@@ -1,10 +1,16 @@
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 
-// Create Express app 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname)));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 // Database connection
 const db = mysql.createConnection({
@@ -15,8 +21,8 @@ database: "itelfinals" // create this DB in MySQL
 });
 
 function validateRegistration(req, res, next) {
-    const { username, email, age, program } = req.body;
-    if (!username || !email || !age || !program) {
+    const { name, email, age, program } = req.body;
+    if (!name || !email || !age || !program) {
         return res.status(400).send("All fields are required!");
     }
     next(); // move to the next middleware if validation passes

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Mga butas/need pa sa gawa natin:
  * 1. Empty input != start/next button
@@ -9,31 +8,12 @@
  */
 document.getElementById('start-btn').addEventListener('click', function(event) {
     event.preventDefault(); // prevent default behavior (like form submission)
-=======
-const express = require("express");
-const bodyParser = require("body-parser");
-const mysql = require("mysql2");
->>>>>>> e4199206192556c42f14a3c1ae463d7f14809681
 
     const startPage = document.getElementById('info'); // start page
     const inputs = startPage.querySelectorAll('input');
 
-<<<<<<< HEAD
     // Validate all inputs on the start page
     for (const input of inputs) {
-=======
-// Database connection
-const db = mysql.createConnection({
-host: "localhost",
-user: "root", // change if needed
-password: "", // add your MySQL password
-database: "itelfinals" // create this DB in MySQL
-});
-db.connect(err => {
-    if (err) throw err;
-    console.log("✅ Connected to database");
-    });
->>>>>>> e4199206192556c42f14a3c1ae463d7f14809681
 
         if (input.type === 'radio' && input.name) {
             const checked = startPage.querySelector(`input[name="${input.name}"]:checked`);
@@ -47,19 +27,8 @@ db.connect(err => {
         }
     }
 
-<<<<<<< HEAD
     // If validation passes, show first page
     startPage.style.display = 'none';
-=======
-// Run server
-app.listen(3000, () => {
-console.log("🚀 Server running on http://localhost:3000");
-});
-
-//THIS BULLSHIT IS FOR CLICKING THE NEXT BULLSHIT
-document.getElementById('start-btn').addEventListener('click', function() {
-    document.getElementById('info').style.display = 'none';
->>>>>>> e4199206192556c42f14a3c1ae463d7f14809681
     document.getElementById('firstPage').style.display = 'block';
     document.getElementById('next-btn').disabled = false;
 });
