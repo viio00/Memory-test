@@ -8,21 +8,21 @@
 </head>
 
 <body>
-<form id="registerForm" action="http://localhost:3000/register" method="POST">
+<form action="http://localhost:3000/register" method="POST">
 
 <div id="timer" class="timerDisplay" style="display: none;"></div>
 <div id="info" class="page">
     <label>Name:</label>
-    <input type="text" name="name" required>
+    <input type="text" name="name" id="name" required>
 
     <label>Email:</label>
-    <input type="text" name="email" required>
+    <input type="text" name="email" id="email" required>
 
     <label>Age:</label>
-    <input type="text" name="age" required>
+    <input type="text" name="age" id="age" required>
 
     <label>Program:</label>
-    <input type="text" name="program" required>
+    <input type="text" name="program" id="program" required>
 
     <button class="next-btn" id="start-btn">Start Test</button>
 </div>
@@ -417,7 +417,7 @@
 </div>
 
     <div id="btn" class="recall" style="display: none;">
-        <button type=submit class="next-btn">Submit Results</button>
+        <button type="submit" class="next-btn">Submit Results</button>
      </div>
 </div> 
 </form>   

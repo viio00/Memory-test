@@ -518,3 +518,28 @@ nextButtons.forEach(button => {
 
     // initial build
     createGrid();
+        
+document.getElementById("registerForm").addEventListener("submit", async function (e) {
+  e.preventDefault(); // ✅ STOP PAGE RELOAD
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const age = document.getElementById("age").value;
+  const program = document.getElementById("program").value;
+
+  const response = await fetch("http://localhost:3000/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      age,
+      program
+    })
+  });
+
+  const result = await response.text();
+  alert(result); // ✅ shows success or error message
+});
