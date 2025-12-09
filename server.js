@@ -10,10 +10,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
-
 app.get("/", (req, res) => {
-   res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 app.post("/register", async (req, res) => {
   const { name, email, age, program } = req.body;
@@ -22,7 +22,7 @@ app.post("/register", async (req, res) => {
     const conn = await connectDB();
 
     await conn.query(
-      `INSERT INTO participant (name, email, age, program)
+      `INSERT INTO participant (name, email, age, program, final_score)
        VALUES (?, ?, ?, ?)`,
       [name, email, age, program]
     );

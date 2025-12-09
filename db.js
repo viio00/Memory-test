@@ -1,26 +1,41 @@
 const ibmdb = require("ibm_db");
+require("dotenv").config();
 
-const connStr = "DATABASE=bludb;" +
-  "HOSTNAME=b0aebb68-94fa-46ec-a1fc-1c999edb6187.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud;" +
-  "PORT=31249;" +
-  "PROTOCOL=TCPIP;" +
-  "UID=nmy22973;" +
-  "PWD=2TcvGYcbPh6X3MMl;" +
-  "SECURITY=SSL;" +
-  "CURRENTSCHEMA=NMY22973;"; // optional but recommended
+const connStr =
+  `DATABASE=${process.env.DB_DATABASE};` +
+  `HOSTNAME=${process.env.DB_HOSTNAME};` +
+  `PORT=${process.env.DB_PORT};` +
+  `PROTOCOL=${process.env.DB_PROTOCOL};` +
+  `UID=${process.env.DB_UID};` +
+  `PWD=${process.env.DB_PWD};` +
+  `SECURITY=${process.env.DB_SECURITY};` +
+  `CURRENTSCHEMA=${process.env.DB_SCHEMA};`;
 
-ibmdb.open(connStr, (err, conn) => {
-  if (err) {
-    console.error("❌ DB2 Connection Failed:", err);
-  } else {
+async function connectDB() {
+  try {
+    const conn = await ibmdb.open(connStr);
     console.log("✅ DB2 Connected Successfully!");
-
-    // optional: run a quick test query
-    conn.query("SELECT 1 FROM SYSIBM.SYSDUMMY1", (err, data) => {
-      if (err) console.error("❌ Test Query Failed:", err);
-      else console.log("✅ Test Query Result:", data);
-
-      conn.closeSync(); // close connection
-    });
+    return conn;
+  } catch (err) {
+    console.error("❌ DB2 Connection Failed:", err);
+    throw err;
   }
-});
+}
+
+module.exports = connectDB;
+
+// ✅ TEST CONNECTION when running directly
+if (require.main === module) {
+  (async () => {
+    try {
+      const conn = await connectDB();
+      // Example query to verify
+      const result = await conn.query("SELECT CURRENT TIMESTAMP FROM SYSIBM.SYSDUMMY1");
+      console.log("Query result:", result);
+      await conn.close();
+      console.log("DB2 connection closed!");
+    } catch (err) {
+      console.error("Error during test:", err);
+    }
+  })();
+}

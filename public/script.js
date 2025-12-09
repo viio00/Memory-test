@@ -70,33 +70,39 @@ document.getElementById('start-btn').addEventListener('click', function(event) {
 /**
  * Checks if all required inputs (text) on a given page are filled.
  */
+
+
+
 function validatePage(pageElement) {
-    let isValid = true;
+    // 1. Check Text Inputs
+    const requiredTextInputs = pageElement.querySelectorAll('input[type="text"][required]');
+    for (const input of requiredTextInputs) {
+        if (input.value.trim() === '') {
+            return false;
+        }
+    }
 
-    // Check radio groups
-    const radioGroups = {};
-    pageElement.querySelectorAll('input[type="radio"][required]').forEach(radio => {
-        if (!radioGroups[radio.name]) radioGroups[radio.name] = false;
-        if (radio.checked) radioGroups[radio.name] = true;
-    });
+    // 2. Check Radio Button Groups
+    const radioGroups = {};
+    pageElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const name = radio.name;
+        if (name) { 
+            if (!radioGroups[name]) {
+                radioGroups[name] = false; 
+            }
+            if (radio.checked) {
+                radioGroups[name] = true; 
+            }
+        }
+    });
 
-    for (const group in radioGroups) {
-        if (!radioGroups[group]) {
-            alert('Please answer all required questions!');
-            isValid = false;
-            break;
-        }
-    }
+    for (const name in radioGroups) {
+        if (!radioGroups[name]) {
+            return false;
+        }
+    }
 
-    // Check text inputs
-    pageElement.querySelectorAll('input[type="text"][required]').forEach(input => {
-        if (input.value.trim() === '') {
-            alert('Please fill all required fields!');
-            isValid = false;
-        }
-    });
-
-    return isValid;
+    return true;
 }
 
 
