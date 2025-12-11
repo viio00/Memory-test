@@ -30,8 +30,7 @@ let totalPoints = 0;
 const nextButtons = document.querySelectorAll('.next-btn');
 
 
-// START BUTTON HANDLER (FIXED: Validation works and stops the skip FINALLLYYY)
-
+// START BUTTON HANDLER 
 
 document.getElementById('start-btn').addEventListener('click', function(event) {
     event.preventDefault(); // 1. Always prevent the default form action
@@ -65,85 +64,7 @@ document.getElementById('start-btn').addEventListener('click', function(event) {
 }); 
 
 
-// CORE VALIDATION FUNCTION (THIS IS NEW PLEASE DONT TOUCH THIS I BEG OF YOU THIS IS SO IMPORTANT IT VALIDATES THE INPUT BOXES.)
-
-/**
- * Checks if all required inputs (text) on a given page are filled.
- */
-
-
-
-function validatePage(pageElement) {
-    // 1. Check Text Inputs
-    const requiredTextInputs = pageElement.querySelectorAll('input[type="text"][required]');
-    for (const input of requiredTextInputs) {
-        if (input.value.trim() === '') {
-            return false;
-        }
-    }
-
-    // 2. Check Radio Button Groups
-    const radioGroups = {};
-    pageElement.querySelectorAll('input[type="radio"]').forEach(radio => {
-        const name = radio.name;
-        if (name) { 
-            if (!radioGroups[name]) {
-                radioGroups[name] = false; 
-            }
-            if (radio.checked) {
-                radioGroups[name] = true; 
-            }
-        }
-    });
-
-    for (const name in radioGroups) {
-        if (!radioGroups[name]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-
-///////////////////////////////////TIMER////////////////////////////////////////////////
-function startTimedPage(pageId){
-    if (!timedPages.includes(pageId)) return;
-
-    const page = document.getElementById(pageId);
-    const memorize = page.querySelector(".memorize, .memorize-view");
-    const recall = page.querySelector(".recall, .recall-view");
-
-    if (!memorize || !recall) return;
-
-    memorize.style.display = 'block';
-    recall.style.display = 'none';
-
-    let timeLeft = 5;
-
-    const timer = document.getElementById("timer");
-    if (timer) {
-        timer.style.display = "block";
-        timer.textContent = timeLeft;
-    }
-
-    const countdown = setInterval(() => {
-        timeLeft--;
-        if (timer) timer.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown)
-            if (timer) timer.style.display = "none";
-
-            if (memorize) memorize.style.display = "none";
-
-            if (recall) recall.style.display = "block";
-        }
-    }, 1000);
-}
-
-
-// NEXT BUTTON HANDLER (ETO UNG PROBLEM REN, PERO MAY VALIDATION NA SYA SO DI NA MAGSSKIP
+// NEXT BUTTON HANDLER
 
 nextButtons.forEach(button => {
     button.addEventListener('click', function(event){
@@ -187,6 +108,78 @@ nextButtons.forEach(button => {
         }
     })
 })
+
+/* CORE VALIDATION FUNCTION 
+ * Checks if all required inputs (text) on a given page are filled.
+*/
+
+function validatePage(pageElement) {
+    // 1. Check Text Inputs
+    const requiredTextInputs = pageElement.querySelectorAll('input[type="text"][required]');
+    for (const input of requiredTextInputs) {
+        if (input.value.trim() === '') {
+            return false;
+        }
+    }
+
+    // 2. Check Radio Button Groups
+    const radioGroups = {};
+    pageElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const name = radio.name;
+        if (name) { 
+            if (!radioGroups[name]) {
+                radioGroups[name] = false; 
+            }
+            if (radio.checked) {
+                radioGroups[name] = true; 
+            }
+        }
+    });
+
+    for (const name in radioGroups) {
+        if (!radioGroups[name]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// TIMER 
+function startTimedPage(pageId){
+    if (!timedPages.includes(pageId)) return;
+
+    const page = document.getElementById(pageId);
+    const memorize = page.querySelector(".memorize, .memorize-view");
+    const recall = page.querySelector(".recall, .recall-view");
+
+    if (!memorize || !recall) return;
+
+    memorize.style.display = 'block';
+    recall.style.display = 'none';
+
+    let timeLeft = 5;
+
+    const timer = document.getElementById("timer");
+    if (timer) {
+        timer.style.display = "block";
+        timer.textContent = timeLeft;
+    }
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        if (timer) timer.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown)
+            if (timer) timer.style.display = "none";
+
+            if (memorize) memorize.style.display = "none";
+
+            if (recall) recall.style.display = "block";
+        }
+    }, 1000);
+}
 
 function getPointsForAnswer(name, value) {
     // Note: The keys here MUST match the 'name' attributes in your HTML so it doesnt get confused
@@ -244,63 +237,7 @@ function getPointsForAnswer(name, value) {
     return pointsMap[name] && pointsMap[name][cleanedValue] || 0;
 }
 
-/**
- * Calculates the score for the current page before advancing.
- */
-function calculatePagePoints(pageElement) {
-    let pagePoints = 0;
-    const inputs = pageElement.querySelectorAll('input, select'); 
-
-    inputs.forEach(input => {
-        let value = input.value;
-        if (input.type === 'radio' && !input.checked) {
-            return; 
-        }
-        if (input.type === 'radio') {
-            value = input.value;
-        }
-
-        // Add points for matching name/value pairs
-        pagePoints += getPointsForAnswer(input.name, value);
-    });
-
-    totalPoints += pagePoints;
-}
-
-// FINAL FORM SUBMISSION LOGIC (using fetch)
-
-document.querySelector("#btn button")?.addEventListener("click", async function (e) {
-    if (this.disabled) return;
-    
-    e.preventDefault(); 
-
-    const name = document.getElementById("name")?.value;
-    const email = document.getElementById("email")?.value;
-    const age = document.getElementById("age")?.value;
-    const program = document.getElementById("program")?.value;
-
-    this.disabled = true; 
-
-    const response = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            name,
-            email,
-            age,
-            program,
-            finalScore: totalPoints
-        })
-    });
-
-    const result = await response.text();
-    alert(`Submission complete. Server response: ${result}`);
-});
-
-
-// VISUAL MEMORY GAME LOGIC (with score)
+// VISUAL MEMORY GAME LOGIC (with score SYSTEM)
 
 const gridSize = 5; 
 const flashCount = 5; 
@@ -410,4 +347,59 @@ if (visualNextBtn) {
         console.log('Visual Memory Score added:', score, 'Total Points:', totalPoints);
     });
 }
+
+/**
+ * Calculates the score for the current page before advancing.
+ */
+function calculatePagePoints(pageElement) {
+    let pagePoints = 0;
+    const inputs = pageElement.querySelectorAll('input, select'); 
+
+    inputs.forEach(input => {
+        let value = input.value;
+        if (input.type === 'radio' && !input.checked) {
+            return; 
+        }
+        if (input.type === 'radio') {
+            value = input.value;
+        }
+
+        // Add points for matching name/value pairs
+        pagePoints += getPointsForAnswer(input.name, value);
+    });
+
+    totalPoints += pagePoints;
+}
+
+// FINAL FORM SUBMISSION LOGIC (using fetch)
+
+document.querySelector("#btn button")?.addEventListener("click", async function (e) {
+    if (this.disabled) return;
+    
+    e.preventDefault(); 
+
+    const name = document.getElementById("name")?.value;
+    const email = document.getElementById("email")?.value;
+    const age = document.getElementById("age")?.value;
+    const program = document.getElementById("program")?.value;
+
+    this.disabled = true; 
+
+    const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            age,
+            program,
+            finalScore: totalPoints
+        })
+    });
+
+    const result = await response.text();
+    alert(`Submission complete. Server response: ${result}`);
+});
 
